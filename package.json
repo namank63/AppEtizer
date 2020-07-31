@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/namank63/AppEtizer/issues"
   },
-  "homepage": "https://github.com/namank63/AppEtizer#readme"
+  "homepage": "https://github.com/namank63/AppEtizer#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.27"
+  }
 }
