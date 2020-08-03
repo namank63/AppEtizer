@@ -19,6 +19,9 @@ app.get("/food", function(req,res){
   ]
   res.render("food",{food:food});
 });
+app.get("/food/new",function(req,res){
+    res.render("new.ejs");
+});
  
 app.listen(3000,function(){
     console.log("The AppEtizer server  has started");
