@@ -1,14 +1,42 @@
 /*********************************************************
 VARIABLE DECLARATIONS
 **********************************************************/
-var express = require("express"),
-    app     = express();
+var express    = require("express"),
+    app        = express(),
+    bodyParser = require("body-parser"),
+    mongoose   = require("mongoose");
 
 
 /*********************************************************
 CONFIGURATIONS
 **********************************************************/
+mongoose.connect("mongodb://localhost/recipes", { useUnifiedTopology: true, useNewUrlParser: true });
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine","ejs");
+
+
+/*********************************************************
+SCHEMA SETUP
+**********************************************************/
+var recipeSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+
+var Recipe = mongoose.model("Recipe", recipeSchema);
+
+// Recipe.create(
+//     { 
+//         name: "Italian Pasta", 
+//         image: "https://1.bp.blogspot.com/-0IwBC-Wltc8/W8_d-FuHaXI/AAAAAAAAC0o/wm0Hs1FmHjklNnUlXoCCmtbqnpqlwv1fQCLcBGAs/s1600/World%2BPasta%2BDay%2B2018.jpg"
+//     },  function(err, recipe){
+//         if(err) {
+//             console.log(err);
+//         } else {
+//             console.log("New Recipe Saved!!");
+//             console.log(recipe);
+//         }
+//     });
 
 
 /*********************************************************
@@ -18,23 +46,22 @@ app.get("/", function(req,res){
     res.render("landing");
 });
 
-app.get("/food", function(req,res){
-  var food = [
-      {name: "Pizza" ,image:"http://4.bp.blogspot.com/-n-jZjyEzncE/Uq8IxN6-giI/AAAAAAAADWk/OL-YhSPEG_4/s1600/Pizza+Food+Hd+Wallpaper.jpg"},
-      {name: "Italian Pasta" ,image:"https://1.bp.blogspot.com/-0IwBC-Wltc8/W8_d-FuHaXI/AAAAAAAAC0o/wm0Hs1FmHjklNnUlXoCCmtbqnpqlwv1fQCLcBGAs/s1600/World%2BPasta%2BDay%2B2018.jpg"},
-      {name: "Noodles" ,image:"http://new.nankaseimen.com/wp-content/uploads/2016/10/Nanka-0059.jpg"},
-      {name: "Pizza" ,image:"http://4.bp.blogspot.com/-n-jZjyEzncE/Uq8IxN6-giI/AAAAAAAADWk/OL-YhSPEG_4/s1600/Pizza+Food+Hd+Wallpaper.jpg"},
-      {name: "Italian Pasta" ,image:"https://1.bp.blogspot.com/-0IwBC-Wltc8/W8_d-FuHaXI/AAAAAAAAC0o/wm0Hs1FmHjklNnUlXoCCmtbqnpqlwv1fQCLcBGAs/s1600/World%2BPasta%2BDay%2B2018.jpg"},
-      {name: "Noodles" ,image:"http://new.nankaseimen.com/wp-content/uploads/2016/10/Nanka-0059.jpg"},
-      {name: "Pizza" ,image:"http://4.bp.blogspot.com/-n-jZjyEzncE/Uq8IxN6-giI/AAAAAAAADWk/OL-YhSPEG_4/s1600/Pizza+Food+Hd+Wallpaper.jpg"},
-      {name: "Italian Pasta" ,image:"https://1.bp.blogspot.com/-0IwBC-Wltc8/W8_d-FuHaXI/AAAAAAAAC0o/wm0Hs1FmHjklNnUlXoCCmtbqnpqlwv1fQCLcBGAs/s1600/World%2BPasta%2BDay%2B2018.jpg"},
-      {name: "Noodles" ,image:"http://new.nankaseimen.com/wp-content/uploads/2016/10/Nanka-0059.jpg"},
-      {name: "Aalu paratha" ,image:"https://i.ytimg.com/vi/ohrbhGYQ-1o/maxresdefault.jpg"}
-  ]
-  res.render("food",{food:food});
+app.get("/recipes", function(req,res){
+    //Get all recipes from DB
+    Recipe.find({}, function(err, allRecipes){
+        if(err) {
+            console.log(err);
+        } else {
+            res.render("recipes", { recipes: allRecipes});
+        }
+    });
 });
 
-app.get("/food/new",function(req,res){
+app.post("/recipes", function(req, res){
+
+});
+
+app.get("/recipes/new",function(req,res){
     res.render("new.ejs");
 });
  
