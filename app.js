@@ -1,9 +1,23 @@
-var express= require("express");
-var app = express();
+/*********************************************************
+VARIABLE DECLARATIONS
+**********************************************************/
+var express = require("express"),
+    app     = express();
+
+
+/*********************************************************
+CONFIGURATIONS
+**********************************************************/
 app.set("view engine","ejs");
+
+
+/*********************************************************
+ROUTES
+**********************************************************/
 app.get("/", function(req,res){
     res.render("landing");
 });
+
 app.get("/food", function(req,res){
   var food = [
       {name: "Pizza" ,image:"http://4.bp.blogspot.com/-n-jZjyEzncE/Uq8IxN6-giI/AAAAAAAADWk/OL-YhSPEG_4/s1600/Pizza+Food+Hd+Wallpaper.jpg"},
@@ -19,6 +33,7 @@ app.get("/food", function(req,res){
   ]
   res.render("food",{food:food});
 });
+
 app.get("/food/new",function(req,res){
     res.render("new.ejs");
 });
