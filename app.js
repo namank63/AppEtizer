@@ -23,6 +23,7 @@ var recipeSchema = new mongoose.Schema({
     image: String
 });
 
+//compiling schema into model
 var Recipe = mongoose.model("Recipe", recipeSchema);
 
 // Recipe.create(
@@ -58,7 +59,19 @@ app.get("/recipes", function(req,res){
 });
 
 app.post("/recipes", function(req, res){
-
+    //get data from form and add to recpies array
+    var name = req.body.name;
+    var image = req.body.image;
+    var newRecpie = {name: name, image: image}
+    //create a new recipe and save to DB
+    Recipe.create(newRecpie, function(err, newlyCreated){
+        if(err) {
+            console.log(err);
+        } else {
+            //redirect back to recpies page
+            res.redirect("/recipes");
+        }
+    });
 });
 
 app.get("/recipes/new",function(req,res){
