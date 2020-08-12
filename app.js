@@ -1,12 +1,18 @@
+//  const recipe = require("./models/recipe");
+
 /*********************************************************
 VARIABLE DECLARATIONS
 **********************************************************/
 var express    = require("express"),
     app        = express(),
     bodyParser = require("body-parser"),
-    mongoose   = require("mongoose");
+    mongoose   = require("mongoose"),
+    recipe     = require("./models/recipe"),
+    // comment    = require("./models/comment"),
+    seedDB     = require("./seeds")
 
 
+    
 /*********************************************************
 CONFIGURATIONS
 **********************************************************/
@@ -15,31 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine","ejs");
 
 
-/*********************************************************
-SCHEMA SETUP
-**********************************************************/
-var recipeSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-//compiling schema into model
-var Recipe = mongoose.model("Recipe", recipeSchema);
-
-// Recipe.create(
-//     { 
-//         name: "Italian Pasta", 
-//         image: "https://1.bp.blogspot.com/-0IwBC-Wltc8/W8_d-FuHaXI/AAAAAAAAC0o/wm0Hs1FmHjklNnUlXoCCmtbqnpqlwv1fQCLcBGAs/s1600/World%2BPasta%2BDay%2B2018.jpg",
-//         description: "It is a awesome italian Pasta"
-//     },  function(err, recipe){
-//         if(err) {
-//             console.log(err);
-//         } else {
-//             console.log("New Recipe Saved!!");
-//             console.log(recipe);
-//         }
-//     });
+seedDB();
 
 
 /*********************************************************
@@ -52,7 +34,7 @@ app.get("/", function(req,res){
 //INDEX ROUTE: shows all recipes
 app.get("/recipes", function(req,res){
     //Get all recipes from DB
-    Recipe.find({}, function(err, allRecipes){
+    recipe.find({}, function(err, allRecipes){
         if(err) {
             console.log(err);
         } else {
@@ -69,7 +51,7 @@ app.post("/recipes", function(req, res){
     var description = req.body.description;
     var newRecpie = {name: name, image: image, description: description}
     //create a new recipe and save to DB
-    Recipe.create(newRecpie, function(err, newlyCreated){
+    recipe.create(newRecpie, function(err, newlyCreated){
         if(err) {
             console.log(err);
         } else {
@@ -87,10 +69,11 @@ app.get("/recipes/new",function(req,res){
 //SHOW ROUTE: shows more info about one recipe
 app.get("/recipes/:id", function(req, res) {
     //find the recipe with provided ID
-    Recipe.findById(req.params.id, function(err, foundRecipe){
+    recipe.findById(req.params.id).populate(comments).exec( function(err, foundRecipe){
         if(err) {
             console.log(err);
         } else {
+             console.log(foundRecipe);
             //render show template with that recipe
             res.render("show", {recipe: foundRecipe});
         }
