@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
-var recipe   = require("./models/recipe");
-var comment = require("./models/comment");
+var Recipe   = require("./models/recipe");
+var Comment = require("./models/comment");
 var data =[
     {
         name: "naan",
@@ -22,42 +22,36 @@ var data =[
 
 function seedDB(){
     // remove all recipies
-recipe.remove({}, function(err){
-    if(err)
-    {
+    Recipe.remove({}, function(err){
+    if(err) {
         console.log(err);
     }
-    console.log("removed recipe!");
-    // add a few  recipes
+    console.log("Removed recipe!");
+    // add a few recipes
        data.forEach(function(seed){
-          recipe.create(seed, function(err, recipe){
+          Recipe.create(seed, function(err, recipe){
             if(err){
                 console.log(err)
-            }
-            else{
+            } else{
                 console.log("added a new recipe");
                 // create a comment
-                comment.create(
+                Comment.create(
                     {
                         text: " Recipe is  easy and dishes are too delicius ",
                         author: "Homer"
                     }, function(err, comment){
                         if (err){
                             console.log(err);
-                        }
-                        else{
+                        } else {
                             recipe.comments.push(comment);
                             recipe.save();
                             console.log("created new comment");
                         }
-                       
                     });
                 }
            });
        });
     });
-   
-
     // add few comments
 }
 
