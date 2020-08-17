@@ -12,7 +12,8 @@ var express    = require("express"),
 /*********************************************************
 CONFIGURATIONS
 **********************************************************/
-mongoose.connect("mongodb://localhost/recipes", { useUnifiedTopology: true, useNewUrlParser: true });
+//mongoose.connect("mongodb://localhost/recipes", { useUnifiedTopology: true, useNewUrlParser: true }); //Offline MongoDB
+var connectDB = require("./database/Connection"); connectDB();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine","ejs");
 seedDB();
@@ -77,5 +78,5 @@ app.get("/recipes/:id", function(req, res) {
  
 //App Url
 app.listen(3000,function(){
-    console.log("The AppEtizer server  has started");
+    console.log("The AppEtizer server has started");
 });
