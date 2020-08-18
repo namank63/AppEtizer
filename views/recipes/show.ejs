@@ -1,13 +1,16 @@
-<%- include('partials/header') %>
+<%- include('../partials/header') %>
 
     <h1><%= recipe.name %></h1>
     <img src="<%= recipe.image%>" alt="">
     <h1><%=recipe.name%></h1>
     <p><%=recipe.description%></p>
+    <p>
+        <a class = "btn btn-success" href="/recipes/<%=recipe._id%>/comments/new">Add New Comment</a>
+    </p>
     <% recipe.comments.forEach(function(comment){ %>
         <p>
             <strong><%= comment.author %> </strong> - <%= comment.text %>
         </p>
     <% }) %>
 
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>

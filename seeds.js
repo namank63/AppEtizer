@@ -8,7 +8,7 @@ var Comment = require("./models/comment");
 var data =[
     {
         name: "Naan",
-        image: " https://th.bing.com/th/id/OIP.kkjymEgg3sCcUx7Hw0LHggHaHa?pid=Api&rs=1" ,
+        image: " https://th.bing.com/th/id/OIP.kkjymEgg3sCcUx7Hw0LHggHaHa?pid=Api&rs=1",
         description: "not needed"
     },
     {
@@ -38,7 +38,6 @@ function seedDB(){
                 console.log("Removed comments!!");
             }
         });
-    
         //add a few recipes
         data.forEach(function(seed) {
           Recipe.create(seed, function(err, recipe) {
