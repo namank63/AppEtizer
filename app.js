@@ -19,11 +19,31 @@ CONFIGURATIONS
 //mongoose.connect("mongodb://localhost/recipes", { useUnifiedTopology: true, useNewUrlParser: true }); //Offline MongoDB
 //please fill credentials in database/connections file
 var connectDB = require("./database/Connection");
+const { populate, updateOne } = require("./models/comment");
 connectDB();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
 seedDB();
+ 
+
+/******************************************************************* 
+PASSPORT CONFIGURATION
+**********************************************************************/
+
+//passport configuration
+app.use(require("express-session")({
+    secret: "Food that we love should be healthy and delicius too.",
+    resave: false,
+    saveUninitialized: false
+}));
+   
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 
 /*********************************************************
@@ -120,6 +140,34 @@ app.post("/recipes/:id/comments", function(req, res) {
     //redirect to recipe show page
 });
  
+
+
+/*****************************************
+ AUTH ROUTES
+ */
+
+//show register form
+app.get("/register",function(req, res){
+    res.render("register");
+});
+
+//HANDLE SIGN UP LOGIC
+app.post("/register",function(req, res){
+    var newUser= new User({username:req.body.username});
+    User.register(newUser,req.body.password,function(err,user){
+        if(err){
+            console.log(err);
+            return res.render("register")
+        }
+        passport.authenticate("local")(req, res,function(){
+            res.redirect("/recipes");
+        });
+    });
+});
+
+ //SHOW LOGIN FORM
+ app.
+
 //App Url
 app.listen(3000,function(){
     console.log("The AppEtizer server has started");
