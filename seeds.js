@@ -20,6 +20,11 @@ var data =[
         name: "Gulab jamun",
         image: " https://th.bing.com/th/id/OIP.k_You121ypRkETTZaIn2uQHaE8?w=267&h=180&c=7&o=5&dpr=1.5&pid=1.7",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+    } ,
+    {
+        name: "Idli",
+        image: "http://i0.wp.com/www.cookingfromheart.com/wp-content/uploads/2016/08/m_DSC_0212_3.jpg?resize=900%2C705",
+        description: "Delicious South Indian Food."
     }
 ]
 
