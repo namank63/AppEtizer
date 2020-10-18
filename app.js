@@ -106,7 +106,7 @@ app.get("/recipes/:id", function(req, res) {
 /*********************************************************
 COMMENT ROUTES
 **********************************************************/
-app.get("/recipes/:id/comments/new", function(req, res){
+app.get("/recipes/:id/comments/new", isLoggedIn,function(req, res){
     //find recipe by id
     Recipe.findById(req.params.id, function(err, recipe){
         if(err) {
@@ -114,7 +114,7 @@ app.get("/recipes/:id/comments/new", function(req, res){
         } else {
             res.render("comments/new", {recipe: recipe});
         }
-    });
+    })
 });
 
 app.post("/recipes/:id/comments", function(req, res) {
@@ -179,6 +179,20 @@ app.post("/register",function(req, res){
  }) ,function(req,res){
 
 });
+
+//LOGIC ROUTE
+app.get("/logout",function(req,res){
+    req.logout();
+    res.redirect("/recipes");
+});
+
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
+
 
 //App Url
 app.listen(3000,function(){
