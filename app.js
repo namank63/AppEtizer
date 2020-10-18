@@ -198,5 +198,3 @@ function isLoggedIn(req,res,next){
 app.listen(3000,function(){
     console.log("The AppEtizer server has started");
 });
-
-//Test Text
