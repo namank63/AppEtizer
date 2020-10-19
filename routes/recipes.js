@@ -64,18 +64,14 @@ router.get("/:id", function(req, res) {
 });
 
 //EDIT ROUTE
-router.get("/:id/edit", function(req, res){
+router.get("/:id/edit", checkRecipeOwnerShip, function(req, res){
     Recipe.findById(req.params.id, function(err, foundRecipe){
-        if(err) {
-            res.redirect("/recipes");
-        } else {
-            res.render("recipes/edit", {recipe: foundRecipe});
-        }
+        res.render("recipes/edit", {recipe: foundRecipe});
     });
 });
 
 //UPDATE ROUTE
-router.put("/:id", function(req, res){
+router.put("/:id", checkRecipeOwnerShip, function(req, res){
     //find and update the correct recipe
     Recipe.findByIdAndUpdate(req.params.id, req.body.recipe, function(err, updatedRecipe){
         if(err) {
@@ -88,7 +84,7 @@ router.put("/:id", function(req, res){
 });
 
 //DESTROY ROUTE
-router.delete("/:id", function(req, res){
+router.delete("/:id", checkRecipeOwnerShip, function(req, res){
     Recipe.findByIdAndRemove(req.params.id, function(err){
         if(err) {
             res.redirect("/recipes");
@@ -108,6 +104,25 @@ function isLoggedIn(req,res,next){
         return next();
     }
     res.redirect("/login");
+}
+
+function checkRecipeOwnerShip(req, res, next) {
+    if(req.isAuthenticated()){
+        Recipe.findById(req.params.id, function(err, foundRecipe){
+            if(err) {
+                res.redirect("back");
+            } else {
+                //does user own the recipe
+                if(foundRecipe.author.id.equals(req.user._id)) {
+                    next();
+                } else {
+                    res.redirect("back");
+                }
+            }
+        });
+    } else {
+        res.redirect("back");
+    }
 }
 
 module.exports = router;
