@@ -23,12 +23,16 @@ router.get("/", function(req,res){
 });
 
 //CREATE ROUTE: add new recipe to DB
-router.post("/", function(req, res){
+router.post("/", isLoggedIn, function(req, res){
     //get data from form and add to recpies array
     var name = req.body.name;
     var image = req.body.image;
     var description = req.body.description;
-    var newRecpie = {name: name, image: image, description: description}
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    var newRecpie = {name: name, image: image, description: description, author: author}
     //create a new recipe and save to DB
     Recipe.create(newRecpie, function(err, newlyCreated){
         if(err) {
@@ -41,7 +45,7 @@ router.post("/", function(req, res){
 });
 
 //NEW ROUTE: show form to create new recipe
-router.get("/new",function(req,res){
+router.get("/new", isLoggedIn, function(req,res){
     res.render("recipes/new");
 });
 
@@ -58,5 +62,17 @@ router.get("/:id", function(req, res) {
         }
     });
 });
+
+
+
+/*********************************************************
+MIDDLEWARE
+**********************************************************/
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
