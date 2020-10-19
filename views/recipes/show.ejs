@@ -15,12 +15,16 @@
                 <div class = "thumbnail">
                     <img class = "img-responsive" src="<%= recipe.image%>" alt="">
                     <div class="caption-full">
-                        <h4 class="pull-right">$10/night</h4>
+                        <h4 class="pull-right">$10/serve</h4>
                         <h4><a><%=recipe.name%></a></h4>
                         <p><%=recipe.description%></p>
                         <p>
                             <em>Submitted by <%=recipe.author.username%></em>
                         </p>
+                        <a class="btn btn-xs btn-warning" href="/recipes/<%=recipe._id%>/edit">Edit</a>
+                        <form id="delete-form" action="/recipes/<%=recipe._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form>
                     </div>
                 </div>
                 <div class = "well">
