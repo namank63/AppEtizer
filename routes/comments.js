@@ -11,6 +11,7 @@ var Comment = require("../models/comment");
 /*********************************************************
 COMMENT ROUTES
 **********************************************************/
+//comments new
 router.get("/new", isLoggedIn,function(req, res){
     //find recipe by id
     Recipe.findById(req.params.id, function(err, recipe){
@@ -22,6 +23,7 @@ router.get("/new", isLoggedIn,function(req, res){
     })
 });
 
+//comment create
 router.post("/", function(req, res) {
     //lookup reipe using id
     Recipe.findById(req.params.id, function(err, recipe) {
@@ -34,6 +36,11 @@ router.post("/", function(req, res) {
                 if (err) {
                     console.log(err);
                 } else {
+                    //add username and id to cpmment
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    //save comment
+                    comment.save();
                     //connect new comment to recipe
                     recipe.comments.push(comment);
                     recipe.save();
@@ -45,6 +52,11 @@ router.post("/", function(req, res) {
     }); 
 });
 
+
+
+/*********************************************************
+MIDDLEWARE
+**********************************************************/
 function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
