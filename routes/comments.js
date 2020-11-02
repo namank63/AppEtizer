@@ -26,7 +26,7 @@ router.get("/new", middleware.isLoggedIn,function(req, res){
 
 //Comment Create
 router.post("/", function(req, res) {
-    //lookup reipe using id
+    //lookup recipe using id
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
             console.log(err);
