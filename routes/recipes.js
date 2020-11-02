@@ -4,6 +4,7 @@ VARIABLE DECLARATIONS
 var express = require("express");
 var router = express.Router();
 var Recipe = require("../models/recipe");
+var middleware = require("../middleware");
 
 
 
@@ -23,7 +24,7 @@ router.get("/", function(req,res){
 });
 
 //CREATE ROUTE: add new recipe to DB
-router.post("/", isLoggedIn, function(req, res){
+router.post("/", middleware.isLoggedIn, function(req, res){
     //get data from form and add to recpies array
     var name = req.body.name;
     var image = req.body.image;
@@ -45,7 +46,7 @@ router.post("/", isLoggedIn, function(req, res){
 });
 
 //NEW ROUTE: show form to create new recipe
-router.get("/new", isLoggedIn, function(req,res){
+router.get("/new", middleware.isLoggedIn, function(req,res){
     res.render("recipes/new");
 });
 
@@ -64,14 +65,14 @@ router.get("/:id", function(req, res) {
 });
 
 //EDIT ROUTE
-router.get("/:id/edit", checkRecipeOwnerShip, function(req, res){
+router.get("/:id/edit",  middleware.checkRecipeOwnerShip, function(req, res){
     Recipe.findById(req.params.id, function(err, foundRecipe){
         res.render("recipes/edit", {recipe: foundRecipe});
     });
 });
 
 //UPDATE ROUTE
-router.put("/:id", checkRecipeOwnerShip, function(req, res){
+router.put("/:id", middleware.checkRecipeOwnerShip, function(req, res){
     //find and update the correct recipe
     Recipe.findByIdAndUpdate(req.params.id, req.body.recipe, function(err, updatedRecipe){
         if(err) {
@@ -84,7 +85,7 @@ router.put("/:id", checkRecipeOwnerShip, function(req, res){
 });
 
 //DESTROY ROUTE
-router.delete("/:id", checkRecipeOwnerShip, function(req, res){
+router.delete("/:id", middleware.checkRecipeOwnerShip, function(req, res){
     Recipe.findByIdAndRemove(req.params.id, function(err){
         if(err) {
             res.redirect("/recipes");
@@ -96,33 +97,8 @@ router.delete("/:id", checkRecipeOwnerShip, function(req, res){
 
 
 
-/*********************************************************
-MIDDLEWARE
-**********************************************************/
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
 
-function checkRecipeOwnerShip(req, res, next) {
-    if(req.isAuthenticated()){
-        Recipe.findById(req.params.id, function(err, foundRecipe){
-            if(err) {
-                res.redirect("back");
-            } else {
-                //does user own the recipe
-                if(foundRecipe.author.id.equals(req.user._id)) {
-                    next();
-                } else {
-                    res.redirect("back");
-                }
-            }
-        });
-    } else {
-        res.redirect("back");
-    }
-}
+
+
 
 module.exports = router;
