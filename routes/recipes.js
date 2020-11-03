@@ -27,13 +27,14 @@ router.get("/", function(req,res){
 router.post("/", middleware.isLoggedIn, function(req, res){
     //get data from form and add to recpies array
     var name = req.body.name;
+    var price = req.body.price;
     var image = req.body.image;
     var description = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
     }
-    var newRecpie = {name: name, image: image, description: description, author: author}
+    var newRecpie = {name: name,price: price, image: image, description: description, author: author}
     //create a new recipe and save to DB
     Recipe.create(newRecpie, function(err, newlyCreated){
         if(err) {
