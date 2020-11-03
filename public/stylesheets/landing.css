@@ -41,22 +41,21 @@ body {
 
 
   .slideshow li:nth-child(1) { 
-    background-image: url(http://i.imgur.com/K3mPv14.jpg);
-  }
+    background-image: url(https://static3.bigstockphoto.com/3/2/2/large1500/223191748.jpg)  }
   .slideshow li:nth-child(2) { 
-    background-image: url(http://i.imgur.com/SBEmFpv.jpg);
+    background-image: url(https://c8.alamy.com/comp/D2GK9B/hot-delicious-chicken-biryani-D2GK9B.jpg);
     animation-delay: 10s; 
   }
   .slideshow li:nth-child(3) { 
-    background-image: url(http://i.imgur.com/emvhOnb.jpg);
-    animation-delay: 20s; 
+    background-image: url(https://wallpapercave.com/wp/wc1813154.jpg);
+         animation-delay: 20s; 
   }
   .slideshow li:nth-child(4) { 
-    background-image: url(http://i.imgur.com/2LSMCmJ.jpg);
+    background-image: url(https://static.asianetnews.com/images/01d7v32trpgnee6wrycek5r70b/breakfast_710x400xt.jpg);
     animation-delay: 30s; 
   }
   .slideshow li:nth-child(5) { 
-    background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
+    background-image: url(https://hdwallsource.com/img/2019/4/fast-food-burgers-wallpaper-68908-71254-hd-wallpapers.jpg);
     animation-delay: 40s; 
   }
 
