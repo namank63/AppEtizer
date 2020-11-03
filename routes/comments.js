@@ -25,7 +25,7 @@ router.get("/new", middleware.isLoggedIn,function(req, res){
 });
 
 //Comment Create
-router.post("/", function(req, res) {
+router.post("/", middleware.isLoggedIn, function(req, res) {
     //lookup recipe using id
     Recipe.findById(req.params.id, function(err, recipe) {
         if (err) {
@@ -35,6 +35,7 @@ router.post("/", function(req, res) {
             //create new comment
             Comment.create(req.body.comment, function(err, comment) {
                 if (err) {
+                    req.flash("error", "something went wrong");
                     console.log(err);
                 } else {
                     //add username and id to cpmment
@@ -45,6 +46,7 @@ router.post("/", function(req, res) {
                     //connect new comment to recipe
                     recipe.comments.push(comment);
                     recipe.save();
+                    req.flash("success", "Successfully added comments");
                     //redirect to recipe show page
                     res.redirect("/recipes/"+recipe._id);
                 }
@@ -82,6 +84,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
         if(err) {
             res.redirect("back");
         } else {
+            req.flash("success","Comment deleted");
             res.redirect("/recipes/" + req.params.id);
         }
     });
