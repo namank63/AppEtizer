@@ -41,7 +41,7 @@ router.post("/register",function(req, res){
 
  //show login form
  router.get("/login",function(req,res){
-     res.render("login",{message:req.flash("error")});
+     res.render("login");
  });
 
  //login
@@ -56,6 +56,7 @@ router.post("/register",function(req, res){
 //logout
 router.get("/logout",function(req,res){
     req.logout();
+    req.flash("success","LOGGED YOU OUT!");
     res.redirect("/recipes");
 });
 
