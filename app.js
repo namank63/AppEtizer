@@ -77,3 +77,6 @@ app.use("/recipes/:id/comments", commentRoutes);
 app.listen(3000,function(){
     console.log("The AppEtizer server has started");
 });
+/***********************************************************
+ SERVER 
+***********************************************************/
