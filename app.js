@@ -1,7 +1,7 @@
 /*********************************************************
 VARIABLE DECLARATIONS
 ******************************************************************/
-var express         = require("expressssss"),
+var express         = require("express"),
     app             = express(),
     bodyParser      = require("body-parser"),
     mongoose        = require("mongoose"),
