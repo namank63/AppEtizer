@@ -11,12 +11,13 @@
     </div>
   </header>
   <div class="row text-center" style="display: flex; flex-wrap: wrap;">
-    <% recipes.forEach(function(recipe){ %>
+    <% recipes.slice().reverse().forEach(function(recipe){ %>
       <div class="col-md-3 col-sm-6">
         <div class="thumbnail">
-          <img src="<%= recipe.image %>">
+          <a href="/recipes/<%= recipe._id %>"><img src="<%= recipe.image %>"></a> 
+          
             <div class="caption">
-              <h5><%= recipe.name %></h5>
+              <h5><strong><%= recipe.name %></strong></h5>
             </div>
             <p>
               <a href="/recipes/<%= recipe._id %>" class = "btn btn-primary">More info</a> 
