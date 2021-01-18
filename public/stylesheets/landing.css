@@ -41,9 +41,9 @@ body {
 
 
   .slideshow li:nth-child(1) { 
-    background-image: url(https://static3.bigstockphoto.com/3/2/2/large1500/223191748.jpg)  }
+    background-image: url(https://static.independent.co.uk/s3fs-public/thumbnails/image/2018/06/18/16/restaurant-chef.jpg?width=982&height=726)  }
   .slideshow li:nth-child(2) { 
-    background-image: url(https://c8.alamy.com/comp/D2GK9B/hot-delicious-chicken-biryani-D2GK9B.jpg);
+    background-image: url(https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/fast-food.webp);
     animation-delay: 10s; 
   }
   .slideshow li:nth-child(3) { 
