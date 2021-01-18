@@ -23,10 +23,23 @@ router.get("/", function(req,res){
     });
 });
 
+//Capitalize first letter of each word in recipe name
+function RecipeNameFormat(name) {
+    var formatedName = name[0].toUpperCase();
+    for(var i = 1; i < name.length; i++) {
+        if(name[i-1] == ' ')
+            formatedName += name[i].toUpperCase();
+        else
+            formatedName += name[i];
+    }
+    return formatedName;
+}
+
 //CREATE ROUTE: add new recipe to DB
 router.post("/", middleware.isLoggedIn, function(req, res){
     //get data from form and add to recpies array
     var name = req.body.name;
+    name = RecipeNameFormat(name);
     var price = req.body.price;
     var image = req.body.image;
     var description = req.body.description;
