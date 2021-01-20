@@ -8,6 +8,8 @@ var recipeSchema = new mongoose.Schema({
     price:String,
     image: String,
     description: String,
+    ingredients: String,
+    procedure: String,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
