@@ -27,10 +27,9 @@ router.get("/register",function(req, res){
 
 //sign up
 router.post("/register",function(req, res){
-    var newUser= new User({username:req.body.username});
+    var newUser= new User({username:req.body.username, email:req.body.email, image:req.body.image});
     User.register(newUser,req.body.password,function(err,user){
-        if(err){
-            
+        if(err){ 
             req.flash("error",err.message);
             return res.render("register")
         }
@@ -61,9 +60,5 @@ router.get("/logout",function(req,res){
     req.flash("success","LOGGED YOU OUT!");
     res.redirect("/recipes");
 });
-
-
-
-
 
 module.exports = router;
