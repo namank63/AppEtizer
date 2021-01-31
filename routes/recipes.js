@@ -12,13 +12,13 @@ var middleware = require("../middleware");
 RECIPES ROUTES
 **********************************************************/
 //INDEX ROUTE: shows all recipes
-router.get("/", function(req,res){
+router.get("/", function (req, res) {
     //Get all recipes from DB
-    Recipe.find({}, function(err, allRecipes){
-        if(err) {
+    Recipe.find({}, function (err, allRecipes) {
+        if (err) {
             console.log(err);
         } else {
-            res.render("recipes/index", { recipes: allRecipes});
+            res.render("recipes/index", { recipes: allRecipes });
         }
     });
 });
@@ -26,8 +26,8 @@ router.get("/", function(req,res){
 //Capitalize first letter of each word in recipe name
 function RecipeNameFormat(name) {
     var formatedName = name[0].toUpperCase();
-    for(var i = 1; i < name.length; i++) {
-        if(name[i-1] == ' ')
+    for (var i = 1; i < name.length; i++) {
+        if (name[i - 1] == ' ')
             formatedName += name[i].toUpperCase();
         else
             formatedName += name[i];
@@ -35,22 +35,35 @@ function RecipeNameFormat(name) {
     return formatedName;
 }
 
+function extractTags(tags) {
+    var tagArray = [];
+    tagArray = tags.split(' ');
+    return tagArray;
+}
+
 //CREATE ROUTE: add new recipe to DB
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.isLoggedIn, function (req, res) {
     //get data from form and add to recpies array
     var name = req.body.name;
     name = RecipeNameFormat(name);
     var price = req.body.price;
     var image = req.body.image;
     var description = req.body.description;
+    var procedure = req.body.procedure;
+    var tags = extractTags(req.body.tags);
     var author = {
         id: req.user._id,
         username: req.user.username
     }
-    var newRecpie = {name: name,price: price, image: image, description: description, author: author}
+    var newRecpie = {
+        name: name, price: price,
+        image: image, description: description,
+        author: author, procedure: procedure,
+        tags: tags
+    }
     //create a new recipe and save to DB
-    Recipe.create(newRecpie, function(err, newlyCreated){
-        if(err) {
+    Recipe.create(newRecpie, function (err, newlyCreated) {
+        if (err) {
             console.log(err);
         } else {
             //redirect back to recpies page
@@ -60,36 +73,36 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 });
 
 //NEW ROUTE: show form to create new recipe
-router.get("/new", middleware.isLoggedIn, function(req,res){
+router.get("/new", middleware.isLoggedIn, function (req, res) {
     res.render("recipes/new");
 });
 
 //SHOW ROUTE: shows more info about one recipe
-router.get("/:id", function(req, res) {
+router.get("/:id", function (req, res) {
     //find the recipe with provided ID
-    Recipe.findById(req.params.id).populate("comments").exec( function(err, foundRecipe){
-        if(err) {
+    Recipe.findById(req.params.id).populate("comments").exec(function (err, foundRecipe) {
+        if (err) {
             console.log(err);
         } else {
-             console.log(foundRecipe);
+            console.log(foundRecipe);
             //render show template with that recipe
-            res.render("recipes/show", {recipe: foundRecipe});
+            res.render("recipes/show", { recipe: foundRecipe });
         }
     });
 });
 
 //EDIT ROUTE
-router.get("/:id/edit",  middleware.checkRecipeOwnerShip, function(req, res){
-    Recipe.findById(req.params.id, function(err, foundRecipe){
-        res.render("recipes/edit", {recipe: foundRecipe});
+router.get("/:id/edit", middleware.checkRecipeOwnerShip, function (req, res) {
+    Recipe.findById(req.params.id, function (err, foundRecipe) {
+        res.render("recipes/edit", { recipe: foundRecipe });
     });
 });
 
 //UPDATE ROUTE
-router.put("/:id", middleware.checkRecipeOwnerShip, function(req, res){
+router.put("/:id", middleware.checkRecipeOwnerShip, function (req, res) {
     //find and update the correct recipe
-    Recipe.findByIdAndUpdate(req.params.id, req.body.recipe, function(err, updatedRecipe){
-        if(err) {
+    Recipe.findByIdAndUpdate(req.params.id, req.body.recipe, function (err, updatedRecipe) {
+        if (err) {
             res.redirect("/recipes");
         } else {
             //rediect to show page
@@ -99,9 +112,9 @@ router.put("/:id", middleware.checkRecipeOwnerShip, function(req, res){
 });
 
 //DESTROY ROUTE
-router.delete("/:id", middleware.checkRecipeOwnerShip, function(req, res){
-    Recipe.findByIdAndRemove(req.params.id, function(err){
-        if(err) {
+router.delete("/:id", middleware.checkRecipeOwnerShip, function (req, res) {
+    Recipe.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
             res.redirect("/recipes");
         } else {
             res.redirect("/recipes");
