@@ -1,35 +1,34 @@
 <%- include('../partials/header') %>
 
-  
-<body>
-<div class="container">
-  <header class="jumbotron">
+  <body>
     <div class="container">
-      <h1>Recipe for some delicious food</h1>
-        <p>View Our Delicious Food Recipes From All Over The World</p>
-        <p>
-          <a class="btn btn-primary btn-lg" href="/recipes/new">Add New Recipe</a>
-        </p>
-    </div>
-  </header>
-  <div class="row text-center" style="display: flex; flex-wrap: wrap;">
-    <% recipes.slice().reverse().forEach(function(recipe){ %>
-      <div class="col-md-3 col-sm-6">
-        <div class="thumbnail">
-          <a href="/recipes/<%= recipe._id %>"><img src="<%= recipe.image %>"></a> 
-          
-            <div class="caption">
-              <h5><strong><%= recipe.name %></strong></h5>
-            </div>
-            <p>
-              <a href="/recipes/<%= recipe._id %>" class = "btn btn-primary">More info</a> 
-            </p>
+      <header class="jumbotron">
+        <div class="container">
+          <h1>Recipe for some delicious food</h1>
+          <p>View Our Delicious Food Recipes From All Over The World</p>
+          <p>
+            <a class="btn btn-primary btn-lg" href="/recipes/new">Add New Recipe</a>
+          </p>
         </div>
+      </header>
+      <div class="row text-center" style="display: flex; flex-wrap: wrap;">
+        <% recipes.slice().reverse().forEach(function(recipe){ %>
+          <div class="col-md-3 col-sm-6">
+            <div class="thumbnail roundAndShadow">
+              <a href="/recipes/<%= recipe._id %>"><img src="<%= recipe.image %>" class="imgRound"></a>
+              <div class=" caption">
+                <h5><strong>
+                    <%= recipe.name %>
+                  </strong></h5>
+              </div>
+              <p>
+                <a href="/recipes/<%= recipe._id %>" class="btn btn-primary">More info</a>
+              </p>
+            </div>
+          </div>
+          <% }); %>
       </div>
-    <% }); %>
-  </div>
-</div>
-</div>
+    </div>
+    </div>
 
-
-<%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>

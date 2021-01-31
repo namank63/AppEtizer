@@ -5,11 +5,15 @@ var mongoose = require("mongoose");
 
 var recipeSchema = new mongoose.Schema({
     name: String,
-    price:String,
+    price: String,
     image: String,
     description: String,
-    ingredients: String,
     procedure: String,
+    stars: String,
+    tags: [{
+        type: String
+    }],
+
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -18,11 +22,11 @@ var recipeSchema = new mongoose.Schema({
         username: String
     },
     comments: [
-       {
-           type: mongoose.Schema.Types.ObjectId,
-           ref: "Comment"
-       }
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }
     ]
 });
 
-module.exports  = mongoose.model("Recipe", recipeSchema);
+module.exports = mongoose.model("Recipe", recipeSchema);
