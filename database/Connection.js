@@ -2,10 +2,11 @@
 ONLINE MONGODB CONFIGURATION
 **********************************************************/
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 const connectDB = async() => {
-    await mongoose.connect("mongodb+srv://namanurvashi:Nk63@Us02@appetizer.i4yic.mongodb.net/recipes?retryWrites=true&w=majority", { useUnifiedTopology: true, useNewUrlParser: true });
-    console.log("Online DataBase is connected!!");
+    await mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true });
+    console.log("DataBase Connected!!");
 }
 
 module.exports = connectDB;
