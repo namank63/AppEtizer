@@ -1,8 +1,8 @@
 <%- include ('../partials/header') %>
 
-<div class="container">
-   <div class="row">
-      <h1 style="text-align: center;">Add New Recipe</h1>
+   <div class="container">
+      <div class="row">
+         <h1 style="text-align: center;">Add New Recipe</h1>
          <div style="width:30%;margin: 30px auto;">
             <form action="/recipes" method="POST">
                <div class="form-group">
@@ -12,7 +12,7 @@
                   <input class="form-control" type="number" name="price" placeholder="Price" min="0.01" step="0.01">
                </div>
                <div class="form-group">
-                  <input class="form-control" type="text"  name="image" placeholder="Image url">
+                  <input class="form-control" type="text" name="image" placeholder="Image url">
                </div>
                <div class="form-group">
                   <input class="form-control" type="text" name="description" placeholder="Description">
@@ -21,18 +21,60 @@
                   <input class="form-control" type="text" name="procedure" placeholder="Procedure">
                </div>
                <div class="form-group">
-                  <input class="form-control" type="text" name="ingredients" placeholder="Ingredients">
-               </div>
-               <div class="form-group">
                   <input class="form-control" type="text" name="tags" placeholder="tags">
                </div>
-               <div class="form-group">
-                  <button class="btn btn-lg btn-primary btn-block">Submit</button>
+               <div id="ingredients">
+                  <div class="ingredient">
+                     <div class="form-group">
+                        <input class="form-control" type="text" name="item[0]" placeholder="Item">
+                     </div>
+                     <div class="form-group">
+                        <input class="form-control" type="text" name="quantity[0]" placeholder="Quantity">
+                     </div>
+                  </div>
                </div>
-            </form>
-            <a href="/recipes">Go Back</a>
-        </div>
+               <p id="removeWarning" class="alert alert-danger" style="display: none;">You must include one item!!</p>
+               <div class="addRemoveButton">
+                  <button class="addItem btn btn-success" onclick="addItemFunction();" type="button">Add more
+                     Item</button>
+                  <button class="removeItem btn btn-danger" onclick="removeItemFunction();" type="button">Remove
+                     Item</button>
+               </div>
+               <button class="btn btn-lg btn-primary btn-block">Submit</button>
+         </div>
+         </form>
+         <a href="/recipes">Go Back</a>
+      </div>
    </div>
-</div>
+   </div>
 
-<%- include ('../partials/footer') %>
+   <script>
+      var itemCount = 1;
+      function addItemFunction() {
+         document.getElementById("removeWarning").style.display = "none";
+         var ingredients = document.getElementById("ingredients");
+         ingredients.innerHTML +=
+            `
+            <div class = "ingredient">
+               <div class="form-group">
+                  <input class="form-control" type="text" name="item[${itemCount}]" placeholder="Item">
+               </div>
+               <div class="form-group">
+                  <input class="form-control" type="text" name="quantity[${itemCount}]" placeholder="Quantity">
+               </div>
+            </div>
+         `;
+         itemCount++;
+      }
+      function removeItemFunction() {
+         if (itemCount < 2) {
+            document.getElementById("removeWarning").style.display = "block";
+            return;
+         }
+         var ingredients = document.getElementById('ingredients');
+         ingredients.removeChild(ingredients.lastElementChild);
+         itemCount--;
+      }
+   </script>
+
+   <%- include ('../partials/footer') %>

@@ -51,15 +51,23 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
     var description = req.body.description;
     var procedure = req.body.procedure;
     var tags = extractTags(req.body.tags);
+    // var ingredients = 
+    console.log(req.body.item);
+    console.log(req.body.quantity);
     var author = {
         id: req.user._id,
         username: req.user.username
+    }
+    var ingredients = [];
+    for(var i = 0; i < req.body.item.length; i++) {
+        ingredients.push({item: req.body.item[i], quantity: req.body.quantity[i]});
     }
     var newRecpie = {
         name: name, price: price,
         image: image, description: description,
         author: author, procedure: procedure,
-        tags: tags
+        tags: tags,
+        ingredients: ingredients
     }
     //create a new recipe and save to DB
     Recipe.create(newRecpie, function (err, newlyCreated) {
@@ -121,11 +129,5 @@ router.delete("/:id", middleware.checkRecipeOwnerShip, function (req, res) {
         }
     })
 });
-
-
-
-
-
-
 
 module.exports = router;

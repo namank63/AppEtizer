@@ -4,15 +4,12 @@ VARIABLE DECLARATIONS
 var express         = require("express"),
     app             = express(),
     bodyParser      = require("body-parser"),
-    mongoose        = require("mongoose"),
     flash           = require("connect-flash"),
     passport        = require("passport"),
     LocalStrategy   = require("passport-local"),
     methodOverride  = require("method-override"),
-    Recipe          = require("./models/recipe"),
-    Comment         = require("./models/comment"),
-    User            = require("./models/user"),
-    seedDB          = require("./seeds");
+    User            = require("./models/user");
+    // seedDB          = require("./seeds");
     
     
     
@@ -28,8 +25,6 @@ var commentRoutes = require("./routes/comments"),
 /*********************************************************
 CONFIGURATIONS
 **********************************************************/
-//mongoose.connect("mongodb://localhost/recipes", { useUnifiedTopology: true, useNewUrlParser: true }); //Offline MongoDB
-//please fill credentials in database/connections file
 var connectDB = require("./database/Connection");
 const { populate, updateOne } = require("./models/comment");
 connectDB();
@@ -77,9 +72,3 @@ app.use("/recipes/:id/comments", commentRoutes);
 app.listen(3000,function(){
     console.log("The AppEtizer server has started");
 });
-/***********************************************************
- SERVER 
-***********************************************************/
-/***********************************************************
- SERVER 
-***********************************************************/

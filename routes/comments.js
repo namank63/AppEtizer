@@ -90,13 +90,4 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
     });
 });
 
-
-
-/*********************************************************
-MIDDLEWARE
-**********************************************************/
-
-
-
-
 module.exports = router;
